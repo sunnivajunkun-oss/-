@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>大老板的晾衣绳时间轴 v4.0</title>
+    <link rel="stylesheet" href="./assets/style.css">
+</head>
+<body>
+
+    <h1>晾衣绳时间轴 v4.0</h1>
+
+    <div class="toolbar">
+        <button data-action="export">导出JSON</button>
+        <button data-action="open-import">导入JSON</button>
+        <input type="file" id="importFileInput" accept=".json,application/json" class="is-hidden">
+    </div>
+
+    <div class="tab-bar">
+        <button class="tab-btn active" id="tabBtnTimeline" data-tab="timeline">晾衣绳时间轴</button>
+        <button class="tab-btn" id="tabBtnDDL" data-tab="ddl">DDL 进度追踪</button>
+    </div>
+
+    <div id="tabTimeline" class="tab-content">
+        <div class="control-panel">
+            <input type="text" id="taskName" placeholder="填入事情 (如: 酵母池子)">
+            <input type="date" id="taskStartDate" title="起始日期（不填默认今天）">
+            <input type="number" id="taskDuration" placeholder="持续天数 (如: 11)" min="0">
+            <select id="taskCategory">
+                <option value="">🏷️ 不分类</option>
+                <option value="work">💻 工作</option>
+                <option value="life">🍬 生活</option>
+            </select>
+            <label class="checkbox-label">
+                <input type="checkbox" id="showStart"> 勾选挂起始牌
+            </label>
+            <label class="checkbox-label">
+                <input type="checkbox" id="needsTracking"> 需要进度提醒
+            </label>
+            <button data-action="add-task">挂上去</button>
+            <button data-action="clear-all" class="danger-button">清空绳子</button>
+        </div>
+
+        <div class="filter-bar" id="timelineFilterBar">
+            <button class="filter-btn active" data-filter="all" data-filter-group="timeline">全部</button>
+            <button class="filter-btn" data-filter="work" data-filter-group="timeline">💻 工作</button>
+            <button class="filter-btn" data-filter="life" data-filter-group="timeline">🍬 生活</button>
+        </div>
+
+        <div class="timeline-container" id="timeline"></div>
+    </div>
+
+    <div id="tabDDL" class="tab-content is-hidden">
+        <div class="filter-bar" id="ddlFilterBar">
+            <button class="filter-btn active" data-filter="all" data-filter-group="ddl">全部</button>
+            <button class="filter-btn" data-filter="work" data-filter-group="ddl">💻 工作</button>
+            <button class="filter-btn" data-filter="life" data-filter-group="ddl">🍬 生活</button>
+        </div>
+        <div class="ddl-list" id="ddlProgressList"></div>
+    </div>
+
+    <div class="modal-overlay" id="importModal">
+        <div class="modal-box">
+            <p class="modal-message">本地已经有数据了，导入的内容要怎么处理？</p>
+            <button data-import-mode="overwrite">覆盖现有数据</button>
+            <button data-import-mode="merge">合并（都保留）</button>
+            <button class="btn-gray" data-action="cancel-import">取消</button>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="reminderModal">
+        <div class="modal-box">
+            <p id="reminderText" class="modal-message"></p>
+            <div id="reminderActions">
+                <button data-reminder-action="done">已完成</button>
+                <button class="btn-yellow" data-reminder-action="behind">还没完成</button>
+                <button class="btn-orange" data-action="show-postpone">推迟DDL</button>
+            </div>
+            <div id="postponeSection" class="postpone-section">
+                <input type="date" id="newDeadlineInput" class="postpone-date">
+                <div>
+                    <button data-action="confirm-postpone">确认推迟</button>
+                    <button class="btn-gray" data-action="cancel-postpone">取消</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="./assets/app.js?v=4.1.4"></script>
+</body>
+</html>
